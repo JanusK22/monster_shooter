@@ -1,14 +1,16 @@
-import pygame
-import sys
 import random
+import sys
+
+import pygame
 
 # Initialize Pygame
 pygame.init()
 
 # Set up the game window
-screen_width, screen_height = 800, 600
+screen_width, screen_height = 1200, 800
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Monster Shooter")
+background_image = pygame.transform.scale(pygame.image.load("img.png"), (1200, 800))
 
 # Colors
 WHITE = (255, 255, 255)
@@ -17,6 +19,8 @@ GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
 YELLOW = (255, 255, 0)
+ORANGE = (255,125,0)
+
 
 # Button class
 class Button:
@@ -43,8 +47,9 @@ class Button:
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, bullets, up_key, down_key, left_key, right_key, shoot_key):
         super().__init__()
-        self.image = pygame.Surface((60, 60))
-        self.image.fill(BLUE)
+        #self.image = pygame.Surface((60, 60))
+        self.image = pygame.transform.scale(pygame.image.load("tank.png"), (100, 100))
+        #self.image.fill(BLUE)
         self.rect = self.image.get_rect(center=(x, y))
         self.bullets = bullets
         self.speed = 5
@@ -82,7 +87,7 @@ class Player(pygame.sprite.Sprite):
     def shoot(self):
         for i in range(self.shoot_power):
             bullet = Bullet(
-                self.rect.centerx + i * 10, self.rect.top, RED, self.shoot_power
+                self.rect.centerx + i * 10, self.rect.top, ORANGE, self.shoot_power
             )
             self.bullets.add(bullet)
 
@@ -107,8 +112,9 @@ class Bullet(pygame.sprite.Sprite):
 class Monster(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((40, 40))
-        self.image.fill(GREEN)
+        #self.image = pygame.Surface((40, 40))
+        self.image = pygame.transform.scale(pygame.image.load("alien.png"), (60, 60))
+        #self.image.fill(BLACK)
         self.rect = self.image.get_rect(
             center=(random.randint(40, screen_width - 40), 0)
         )
@@ -125,8 +131,9 @@ class Monster(pygame.sprite.Sprite):
 class Bonus(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((20, 20))
-        self.image.fill(YELLOW)
+        self.circle_radius = 10
+        self.image = pygame.Surface((self.circle_radius * 2, self.circle_radius * 2), pygame.SRCALPHA)
+        pygame.draw.circle(self.image, YELLOW, (self.circle_radius, self.circle_radius), self.circle_radius)
         self.rect = self.image.get_rect(
             center=(random.randint(40, screen_width - 40), 0)
         )
@@ -149,10 +156,10 @@ def create_players(num_players):
             screen_width // 4,
             screen_height - 50,
             player_bullets,
-            pygame.K_UP,
-            pygame.K_DOWN,
-            pygame.K_LEFT,
-            pygame.K_RIGHT,
+            pygame.K_w,
+            pygame.K_s,
+            pygame.K_a,
+            pygame.K_d,
             pygame.K_SPACE,
         )
         players.add(player1)
@@ -161,11 +168,11 @@ def create_players(num_players):
             screen_width // 4 * 3,
             screen_height - 50,
             player_bullets,
-            pygame.K_w,
-            pygame.K_s,
-            pygame.K_a,
-            pygame.K_d,
-            pygame.K_LCTRL,
+            pygame.K_UP,
+            pygame.K_DOWN,
+            pygame.K_LEFT,
+            pygame.K_RIGHT,
+            pygame.K_KP_0,
         )
         players.add(player2)
 
@@ -224,7 +231,8 @@ def start_game(num_players):
             bonus = Bonus()
             bonuses.add(bonus)
 
-        screen.fill(BLACK)
+        #screen.fill(background_image)
+        screen.blit(background_image, (0, 0))
         players.draw(screen)
         player_bullets.draw(screen)
         monsters.draw(screen)
@@ -343,7 +351,6 @@ def start_menu():
                 sys.exit()
             for button in start_buttons:
                 button.handle_event(event)
-
         clock.tick(60)
 
 
