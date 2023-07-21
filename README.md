@@ -12,9 +12,5 @@ There are different level and it's possible to get some bonuses to upgrade the f
 
 ## Game
 
-![Screenshot from 2023-07-19 08-20-09](https://github.com/JanusK22/monster_shooter/assets/44752497/1fd306c4-6d1a-472d-a1de-6b38b48b9056)
+![image](https://github.com/JanusK22/monster_shooter/assets/44752497/64da584d-f740-40ac-b493-6555d79a66ee)
 
-
-## Game Over
-
-![Screenshot from 2023-07-19 08-19-49](https://github.com/JanusK22/monster_shooter/assets/44752497/b2b3bd75-dc78-4177-85e8-c77209ef5719)
